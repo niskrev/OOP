@@ -165,7 +165,41 @@ class Atom:
     Represent atoms found in linked chemical compounds
     """
 
+    def __init__(self, residue, name, coords, element):
+        """(Atom, Residue, str, array, srt) -> NoneType
 
-if __name__ == "__main__":
+        Construct an atom
+        """
+
+        from numpy import array
+
+        if not name:
+            raise Exception('name must be a non-empty string')
+
+        atom = residue.getAtom(name)
+        if atom:
+            raise Exception('{} already used'.format(name))
+        if len(coords) != 3:
+            raise Exception('coords must contain three values')
+
+        self.residue = residue
+        self.name = name
+        self.coords = array(coords)
+        self.element = element
+
+        residue.atomDict[name] = self  # Parent's link
+        residue.atoms.append(self)  # Parent's link
+
+    def delete(self):
+        """(Atom) -> NoneType
+
+        Delete the atom
+        """
+
+        del self.residue.atomDict[self.name]
+        self.residue.atoms.remove(self)
+
+
+     __name__ == "__main__":
     import doctest
     doctest.testmod()
