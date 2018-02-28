@@ -200,6 +200,6 @@ class Atom:
         self.residue.atoms.remove(self)
 
 
-     __name__ == "__main__":
+if __name__ == "__main__":
     import doctest
     doctest.testmod()
